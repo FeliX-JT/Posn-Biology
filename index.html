@@ -3,13 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>POSN Bio God-Mode Matrix</title>
+    <title>POSN Bio God-Mode Matrix v4.0</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Chakra Petch', sans-serif; }
-        .flip-card-inner { transition: transform 0.4s; transform-style: preserve-3d; }
+        .flip-card-inner {
+            transition: transform 0.4s;
+            transform-style: preserve-3d;
+        }
         .flipped { transform: rotateY(180deg); }
         .backface-hidden { backface-visibility: hidden; }
         .rotate-y-180 { transform: rotateY(180deg); }
@@ -26,6 +29,7 @@
                 <h2 id="login-title" class="text-lg font-bold text-emerald-400 tracking-wider">BIO-CORE SECURITY GATE</h2>
                 <p id="login-subtitle" class="text-[11px] text-slate-400 mt-1">กรุณายืนยันตัวตนเพื่อเข้าสู่ระบบ Matrix</p>
             </div>
+
             <div class="space-y-4">
                 <div>
                     <label class="text-[10px] text-slate-400 block mb-1 uppercase font-semibold font-mono">Access Username</label>
@@ -35,6 +39,7 @@
                     <label class="text-[10px] text-slate-400 block mb-1 uppercase font-semibold font-mono">Security Password</label>
                     <input type="password" id="auth-pass" placeholder="ระบุรหัสผ่าน" class="w-full p-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-200 focus:outline-none focus:border-emerald-500 font-mono">
                 </div>
+                
                 <button onclick="handleAuth()" id="auth-btn" class="w-full bg-emerald-500 text-slate-950 font-bold py-3 rounded-xl text-xs uppercase tracking-wider shadow-lg hover:brightness-110 transition-all mt-2">
                     ENTER MATRIX TERMINAL
                 </button>
@@ -80,18 +85,29 @@
                 </div>
 
                 <div class="flex bg-slate-950 p-1 rounded-xl mt-3 border border-slate-800 gap-0.5 text-[10px]">
-                    <button onclick="switchTab('planner')" id="tab-planner" class="flex-1 text-center py-2 rounded-lg font-bold transition-all bg-emerald-500 text-slate-950 shadow-[0_0_10px_rgba(16,185,129,0.3)]">PLAN</button>
-                    <button onclick="switchTab('mock')" id="tab-mock" class="flex-1 text-center py-2 rounded-lg font-bold transition-all text-slate-400 hover:bg-slate-900 hover:text-slate-200">LAB & TREND</button>
-                    <button onclick="switchTab('flash')" id="tab-flash" class="flex-1 text-center py-2 rounded-lg font-bold transition-all text-slate-400 hover:bg-slate-900 hover:text-slate-200">FLASH</button>
-                    <button onclick="switchTab('notes')" id="tab-notes" class="flex-1 text-center py-2 rounded-lg font-bold transition-all text-slate-400 hover:bg-slate-900 hover:text-slate-200">MEMO</button>
+                    <button onclick="switchTab('planner')" id="tab-planner" class="flex-1 text-center py-2 rounded-lg font-bold transition-all bg-emerald-500 text-slate-950 shadow-[0_0_10px_rgba(16,185,129,0.3)]">
+                        <i data-lucide="terminal" class="w-3 h-3 inline mr-0.5 -mt-0.5"></i>PLAN
+                    </button>
+                    <button onclick="switchTab('mock')" id="tab-mock" class="flex-1 text-center py-2 rounded-lg font-bold transition-all text-slate-400 hover:bg-slate-900 hover:text-slate-200">
+                        <i data-lucide="activity" class="w-3 h-3 inline mr-0.5 -mt-0.5"></i>LAB & TREND
+                    </button>
+                    <button onclick="switchTab('flash')" id="tab-flash" class="flex-1 text-center py-2 rounded-lg font-bold transition-all text-slate-400 hover:bg-slate-900 hover:text-slate-200">
+                        <i data-lucide="zap" class="w-3 h-3 inline mr-0.5 -mt-0.5"></i>FLASH
+                    </button>
+                    <button onclick="switchTab('notes')" id="tab-notes" class="flex-1 text-center py-2 rounded-lg font-bold transition-all text-slate-400 hover:bg-slate-900 hover:text-slate-200">
+                        <i data-lucide="code" class="w-3 h-3 inline mr-0.5 -mt-0.5"></i>MEMO
+                    </button>
                 </div>
             </div>
         </div>
 
         <div id="page-planner" class="max-w-md mx-auto px-4 mt-4 space-y-4">
+            
             <div class="bg-gradient-to-br from-slate-900 to-cyan-950/30 p-3 rounded-2xl border border-cyan-500/20 flex items-center justify-between">
                 <div class="flex items-center gap-2.5">
-                    <div class="bg-cyan-950 p-2 rounded-xl border border-cyan-500/30 text-cyan-400"><i data-lucide="timer" class="w-4 h-4"></i></div>
+                    <div class="bg-cyan-950 p-2 rounded-xl border border-cyan-500/30 text-cyan-400">
+                        <i data-lucide="timer" id="pomo-icon" class="w-4 h-4"></i>
+                    </div>
                     <div>
                         <div id="pomo-status" class="text-[10px] font-bold text-cyan-400 uppercase tracking-wider">POMODORO FOCUS</div>
                         <div id="pomo-time" class="text-lg font-bold font-mono text-white leading-none mt-0.5">25:00</div>
@@ -99,73 +115,122 @@
                 </div>
                 <div class="flex gap-1">
                     <button onclick="togglePomodoro()" id="pomo-start-btn" class="bg-cyan-500 text-slate-950 text-[10px] font-bold px-3 py-1.5 rounded-lg hover:brightness-110 transition-all">START</button>
-                    <button onclick="resetPomodoro()" class="bg-slate-950 border border-slate-850 text-slate-400 text-[10px] font-bold px-2 py-1.5 rounded-lg">RESET</button>
+                    <button onclick="resetPomodoro()" class="bg-slate-950 border border-slate-850 text-slate-400 text-[10px] font-bold px-2 py-1.5 rounded-lg hover:text-white transition-all">RESET</button>
                 </div>
             </div>
 
             <div class="bg-gradient-to-br from-slate-900 to-emerald-950/40 p-4 rounded-2xl border border-emerald-500/20">
-                <div class="flex items-center gap-2 text-emerald-400 text-xs font-bold uppercase tracking-wider mb-2"><i data-lucide="zap" class="w-4 h-4 text-amber-400"></i> Dynamic Daily Objective</div>
-                <div id="daily-mission-box" class="text-xs text-slate-300 leading-relaxed bg-slate-950/80 p-3 rounded-xl border border-slate-800">กำลังประมวลผล...</div>
-            </div>
-
-            <div class="bg-slate-900/50 p-4 rounded-2xl border border-slate-800"><h3 class="font-bold text-emerald-400 flex items-center gap-2 border-b border-slate-800 pb-2 mb-2 text-xs">MODULE 01: สารชีวโมเลกุลและเซลล์ (20%)</h3>
-                <div class="space-y-1">
-                    <label class="flex items-start gap-3 p-2 rounded-xl text-xs"><input type="checkbox" id="bio-t1" class="todo-checkbox w-4 h-4 text-emerald-500 rounded bg-slate-950 border-slate-700"><span>สารชีวโมเลกุล (คาร์โบไฮเดรต, โปรตีน, ลิพิด)</span></label>
-                    <label class="flex items-start gap-3 p-2 rounded-xl text-xs"><input type="checkbox" id="bio-t2" class="todo-checkbox w-4 h-4 text-emerald-500 rounded bg-slate-950 border-slate-700"><span>โครงสร้างเซลล์ หน้าที่ออร์แกเนลล์ และกล้องจุลทรรศน์</span></label>
-                    <label class="flex items-start gap-3 p-2 rounded-xl text-xs"><input type="checkbox" id="bio-t3" class="todo-checkbox w-4 h-4 text-emerald-500 rounded bg-slate-950 border-slate-700"><span>การลำเลียงสารผ่านเมมเบรน (Active/Passive)</span></label>
+                <div class="flex items-center gap-2 text-emerald-400 text-xs font-bold uppercase tracking-wider mb-2">
+                    <i data-lucide="calendar" class="w-4 h-4 text-amber-400"></i> Intelligent Live Scheduler
                 </div>
-            </div>
-            <div class="bg-slate-900/50 p-4 rounded-2xl border border-slate-800"><h3 class="font-bold text-emerald-400 flex items-center gap-2 border-b border-slate-800 pb-2 mb-2 text-xs">MODULE 02: พันธุศาสตร์โมเลกุล (20%)</h3>
-                <div class="space-y-1">
-                    <label class="flex items-start gap-3 p-2 rounded-xl text-xs"><input type="checkbox" id="bio-t6" class="todo-checkbox w-4 h-4 text-emerald-500 rounded bg-slate-950 border-slate-700"><span>การถ่ายทอดลักษณะตามหลักเมนเดล คอนเซ็ปต์คำนวณ</span></label>
-                    <label class="flex items-start gap-3 p-2 rounded-xl text-xs"><input type="checkbox" id="bio-t7" class="todo-checkbox w-4 h-4 text-emerald-500 rounded bg-slate-950 border-slate-700"><span>โครงสร้าง DNA, RNA และการจำลองตัวเอง</span></label>
-                </div>
-            </div>
-            <div class="bg-slate-900/50 p-4 rounded-2xl border border-slate-800"><h3 class="font-bold text-emerald-400 flex items-center gap-2 border-b border-slate-800 pb-2 mb-2 text-xs">MODULE 03: สรีรวิทยาของสัตว์ (25%)</h3>
-                <div class="space-y-1">
-                    <label class="flex items-start gap-3 p-2 rounded-xl text-xs"><input type="checkbox" id="bio-t11" class="todo-checkbox w-4 h-4 text-emerald-500 rounded bg-slate-950 border-slate-700"><span>ระบบย่อยอาหาร และการสลายสารอาหารในสัตว์</span></label>
-                    <label class="flex items-start gap-3 p-2 rounded-xl text-xs"><input type="checkbox" id="bio-t12" class="todo-checkbox w-4 h-4 text-emerald-500 rounded bg-slate-950 border-slate-700"><span>ระบบหมุนเวียนเลือด ระบบภูมิคุ้มกัน</span></label>
+                <div id="daily-mission-box" class="text-xs text-slate-300 leading-relaxed bg-slate-950/80 p-3 rounded-xl border border-slate-800">
+                    ระบบกำลังตรวจสอบปฏิทินแบบเรียลไทม์...
                 </div>
             </div>
 
-            <button id="reset-btn" class="w-full bg-slate-900/80 text-slate-400 text-[11px] font-semibold py-3 rounded-xl border border-slate-800">RESET ALL PROGRESS</button>
+            <div class="bg-slate-900/50 p-4 rounded-2xl border border-slate-800 shadow-sm">
+                <h3 class="font-bold text-emerald-400 flex items-center gap-2 border-b border-slate-800 pb-2 mb-2 text-xs tracking-wide">
+                    <i data-lucide="atom" class="w-4 h-4"></i> MODULE 01: สารชีวโมเลกุลและเซลล์ (20%)
+                </h3>
+                <div class="space-y-1">
+                    <label class="flex items-start gap-3 p-2 rounded-xl hover:bg-slate-900/60 transition-all cursor-pointer group"><input type="checkbox" id="bio-t1" class="todo-checkbox w-4 h-4 rounded border-slate-700 bg-slate-950 text-emerald-500 focus:ring-0 mt-0.5"><span class="text-xs text-slate-300 group-hover:text-slate-100">สารชีวโมเลกุล (คาร์โบไฮเดรต, โปรตีน, ลิพิด, กรดนิวคลิอิก)</span></label>
+                    <label class="flex items-start gap-3 p-2 rounded-xl hover:bg-slate-900/60 transition-all cursor-pointer group"><input type="checkbox" id="bio-t2" class="todo-checkbox w-4 h-4 rounded border-slate-700 bg-slate-950 text-emerald-500 focus:ring-0 mt-0.5"><span class="text-xs text-slate-300 group-hover:text-slate-100">โครงสร้างเซลล์ หน้าที่ออร์แกเนลล์ และการใช้กล้องจุลทรรศน์</span></label>
+                    <label class="flex items-start gap-3 p-2 rounded-xl hover:bg-slate-900/60 transition-all cursor-pointer group"><input type="checkbox" id="bio-t3" class="todo-checkbox w-4 h-4 rounded border-slate-700 bg-slate-950 text-emerald-500 focus:ring-0 mt-0.5"><span class="text-xs text-slate-300 group-hover:text-slate-100">การลำเลียงสารผ่านเมมเบรน (Active & Passive Transport)</span></label>
+                    <label class="flex items-start gap-3 p-2 rounded-xl hover:bg-slate-900/60 transition-all cursor-pointer group"><input type="checkbox" id="bio-t4" class="todo-checkbox w-4 h-4 rounded border-slate-700 bg-slate-950 text-emerald-500 focus:ring-0 mt-0.5"><span class="text-xs text-slate-300 group-hover:text-slate-100">เอนไซม์ พลังงาน และการหายใจระดับเซลล์ (Cellular Respiration)</span></label>
+                    <label class="flex items-start gap-3 p-2 rounded-xl hover:bg-slate-900/60 transition-all cursor-pointer group"><input type="checkbox" id="bio-t5" class="todo-checkbox w-4 h-4 rounded border-slate-700 bg-slate-950 text-emerald-500 focus:ring-0 mt-0.5"><span class="text-xs text-slate-300 group-hover:text-slate-100">การแบ่งเซลล์แบบ Mitosis และ Meiosis</span></label>
+                </div>
+            </div>
+
+            <div class="bg-slate-900/50 p-4 rounded-2xl border border-slate-800 shadow-sm">
+                <h3 class="font-bold text-emerald-400 flex items-center gap-2 border-b border-slate-800 pb-2 mb-2 text-xs tracking-wide">
+                    <i data-lucide="git-branch" class="w-4 h-4"></i> MODULE 02: พันธุศาสตร์โมเลกุล (20%)
+                </h3>
+                <div class="space-y-1">
+                    <label class="flex items-start gap-3 p-2 rounded-xl hover:bg-slate-900/60 transition-all cursor-pointer group"><input type="checkbox" id="bio-t6" class="todo-checkbox w-4 h-4 rounded border-slate-700 bg-slate-950 text-emerald-500 focus:ring-0 mt-0.5"><span class="text-xs text-slate-300 group-hover:text-slate-100">การถ่ายทอดลักษณะตามหลักเมนเดล และส่วนขยาย</span></label>
+                    <label class="flex items-start gap-3 p-2 rounded-xl hover:bg-slate-900/60 transition-all cursor-pointer group"><input type="checkbox" id="bio-t7" class="todo-checkbox w-4 h-4 rounded border-slate-700 bg-slate-950 text-emerald-500 focus:ring-0 mt-0.5"><span class="text-xs text-slate-300 group-hover:text-slate-100">โครงสร้าง DNA, RNA และการจำลองตัวเอง (Replication)</span></label>
+                    <label class="flex items-start gap-3 p-2 rounded-xl hover:bg-slate-900/60 transition-all cursor-pointer group"><input type="checkbox" id="bio-t8" class="todo-checkbox w-4 h-4 rounded border-slate-700 bg-slate-950 text-emerald-500 focus:ring-0 mt-0.5"><span class="text-xs text-slate-300 group-hover:text-slate-100">การแสดงออกของยีน (Transcription & Translation)</span></label>
+                    <label class="flex items-start gap-3 p-2 rounded-xl hover:bg-slate-900/60 transition-all cursor-pointer group"><input type="checkbox" id="bio-t9" class="todo-checkbox w-4 h-4 rounded border-slate-700 bg-slate-950 text-emerald-500 focus:ring-0 mt-0.5"><span class="text-xs text-slate-300 group-hover:text-slate-100">เทคโนโลยีดีเอ็นเอ พันธุวิศวกรรม (PCR, Gel Electrophoresis)</span></label>
+                    <label class="flex items-start gap-3 p-2 rounded-xl hover:bg-slate-900/60 transition-all cursor-pointer group"><input type="checkbox" id="bio-t10" class="todo-checkbox w-4 h-4 rounded border-slate-700 bg-slate-950 text-emerald-500 focus:ring-0 mt-0.5"><span class="text-xs text-slate-300 group-hover:text-slate-100">วิวัฒนาการ และหลักการของฮาร์ดี-ไวน์เบิร์ก</span></label>
+                </div>
+            </div>
+
+            <div class="bg-slate-900/50 p-4 rounded-2xl border border-slate-800 shadow-sm">
+                <h3 class="font-bold text-emerald-400 flex items-center gap-2 border-b border-slate-800 pb-2 mb-2 text-xs tracking-wide">
+                    <i data-lucide="heart" class="w-4 h-4"></i> MODULE 03: สรีรวิทยาของสัตว์ (25%)
+                </h3>
+                <div class="space-y-1">
+                    <label class="flex items-start gap-3 p-2 rounded-xl hover:bg-slate-900/60 transition-all cursor-pointer group"><input type="checkbox" id="bio-t11" class="todo-checkbox w-4 h-4 rounded border-slate-700 bg-slate-950 text-emerald-500 focus:ring-0 mt-0.5"><span class="text-xs text-slate-300 group-hover:text-slate-100">ระบบย่อยอาหาร และการสลายสารอาหารในสัตว์</span></label>
+                    <label class="flex items-start gap-3 p-2 rounded-xl hover:bg-slate-900/60 transition-all cursor-pointer group"><input type="checkbox" id="bio-t12" class="todo-checkbox w-4 h-4 rounded border-slate-700 bg-slate-950 text-emerald-500 focus:ring-0 mt-0.5"><span class="text-xs text-slate-300 group-hover:text-slate-100">ระบบหมุนเวียนเลือด ระบบน้ำเหลือง และภูมิคุ้มกัน</span></label>
+                    <label class="flex items-start gap-3 p-2 rounded-xl hover:bg-slate-900/60 transition-all cursor-pointer group"><input type="checkbox" id="bio-t13" class="todo-checkbox w-4 h-4 rounded border-slate-700 bg-slate-950 text-emerald-500 focus:ring-0 mt-0.5"><span class="text-xs text-slate-300 group-hover:text-slate-100">ระบบแลกเปลี่ยนแก๊ส และการหายใจ</span></label>
+                    <label class="flex items-start gap-3 p-2 rounded-xl hover:bg-slate-900/60 transition-all cursor-pointer group"><input type="checkbox" id="bio-t14" class="todo-checkbox w-4 h-4 rounded border-slate-700 bg-slate-950 text-emerald-500 focus:ring-0 mt-0.5"><span class="text-xs text-slate-300 group-hover:text-slate-100">ระบบขับถ่าย และการรักษาดุลยภาพร่างกาย</span></label>
+                    <label class="flex items-start gap-3 p-2 rounded-xl hover:bg-slate-900/60 transition-all cursor-pointer group"><input type="checkbox" id="bio-t15" class="todo-checkbox w-4 h-4 rounded border-slate-700 bg-slate-950 text-emerald-500 focus:ring-0 mt-0.5"><span class="text-xs text-slate-300 group-hover:text-slate-100">ระบบประสาท อวัยวะรับความรู้สึก และกล้ามเนื้อ</span></label>
+                    <label class="flex items-start gap-3 p-2 rounded-xl hover:bg-slate-900/60 transition-all cursor-pointer group"><input type="checkbox" id="bio-t16" class="todo-checkbox w-4 h-4 rounded border-slate-700 bg-slate-950 text-emerald-500 focus:ring-0 mt-0.5"><span class="text-xs text-slate-300 group-hover:text-slate-100">ระบบต่อมไร้ท่อ และฮอร์โมนควบคุมสรีรวิทยา</span></label>
+                    <label class="flex items-start gap-3 p-2 rounded-xl hover:bg-slate-900/60 transition-all cursor-pointer group"><input type="checkbox" id="bio-t17" class="todo-checkbox w-4 h-4 rounded border-slate-700 bg-slate-950 text-emerald-500 focus:ring-0 mt-0.5"><span class="text-xs text-slate-300 group-hover:text-slate-100">ระบบสืบพันธุ์และการเจริญเติบโต (Embryology)</span></label>
+                </div>
+            </div>
+
+            <div class="bg-slate-900/50 p-4 rounded-2xl border border-slate-800 shadow-sm">
+                <h3 class="font-bold text-emerald-400 flex items-center gap-2 border-b border-slate-800 pb-2 mb-2 text-xs tracking-wide">
+                    <i data-lucide="sprout" class="w-4 h-4"></i> MODULE 04: พฤกษศาสตร์ (15%)
+                </h3>
+                <div class="space-y-1">
+                    <label class="flex items-start gap-3 p-2 rounded-xl hover:bg-slate-900/60 transition-all cursor-pointer group"><input type="checkbox" id="bio-t18" class="todo-checkbox w-4 h-4 rounded border-slate-700 bg-slate-950 text-emerald-500 focus:ring-0 mt-0.5"><span class="text-xs text-slate-300 group-hover:text-slate-100">เนื้อเยื่อพืช โครงสร้างราก ลำต้น และใบ</span></label>
+                    <label class="flex items-start gap-3 p-2 rounded-xl hover:bg-slate-900/60 transition-all cursor-pointer group"><input type="checkbox" id="bio-t19" class="todo-checkbox w-4 h-4 rounded border-slate-700 bg-slate-950 text-emerald-500 focus:ring-0 mt-0.5"><span class="text-xs text-slate-300 group-hover:text-slate-100">กระบวนการสังเคราะห์ด้วยแสง (Light & Carbon Reaction)</span></label>
+                    <label class="flex items-start gap-3 p-2 rounded-xl hover:bg-slate-900/60 transition-all cursor-pointer group"><input type="checkbox" id="bio-t20" class="todo-checkbox w-4 h-4 rounded border-slate-700 bg-slate-950 text-emerald-500 focus:ring-0 mt-0.5"><span class="text-xs text-slate-300 group-hover:text-slate-100">การลำเลียงสารอาหารและน้ำในไซเล็ม-โฟลเอ็ม</span></label>
+                    <label class="flex items-start gap-3 p-2 rounded-xl hover:bg-slate-900/60 transition-all cursor-pointer group"><input type="checkbox" id="bio-t21" class="todo-checkbox w-4 h-4 rounded border-slate-700 bg-slate-950 text-emerald-500 focus:ring-0 mt-0.5"><span class="text-xs text-slate-300 group-hover:text-slate-100">ฮอร์โมนพืช และการตอบสนองต่อสิ่งแวดล้อม</span></label>
+                </div>
+            </div>
+
+            <button id="reset-btn" class="w-full bg-slate-900/80 text-slate-400 text-[11px] font-semibold py-3 rounded-xl hover:bg-red-950/40 hover:text-red-400 transition-all flex items-center justify-center gap-1.5 border border-slate-800">
+                <i data-lucide="shield-alert" class="w-3.5 h-3.5"></i> RESET ALL PROGRESS
+            </button>
         </div>
 
         <div id="page-mock" class="max-w-md mx-auto px-4 mt-4 space-y-4 hidden">
-            <div class="bg-gradient-to-br from-slate-900 to-amber-950/30 p-4 rounded-2xl border border-amber-500/30">
-                <div class="flex items-center gap-2 text-amber-400 text-xs font-bold uppercase tracking-wide mb-3">
-                    <i data-lucide="bar-chart-3" class="w-4 h-4"></i> สถิติแนวโน้มหัวข้อออกสอบบ่อยที่สุด (Blueprint Weight)
-                </div>
-                <div class="space-y-2 text-[11px]">
-                    <div class="flex justify-between border-b border-slate-800 pb-1 text-slate-400"><span>หัวข้อข้อสอบ</span><span class="font-mono">สัดส่วนแต้ม %</span></div>
-                    <div class="flex justify-between text-slate-200"><span>1. สรีรวิทยาของสัตว์ (Physiology)</span><span class="font-mono text-amber-400 font-bold">25% (💥 สูงสุด)</span></div>
-                    <div class="flex justify-between text-slate-200"><span>2. พันธุศาสตร์ & วิวัฒนาการ</span><span class="font-mono text-emerald-400">20%</span></div>
-                    <div class="flex justify-between text-slate-200"><span>3. สารชีวโมเลกุลและเซลล์</span><span class="font-mono text-emerald-400">20%</span></div>
-                    <div class="flex justify-between text-slate-200"><span>4. นิเวศวิทยา & ความหลากหลาย</span><span class="font-mono text-cyan-400">20%</span></div>
-                    <div class="flex justify-between text-slate-200"><span>5. พฤกษศาสตร์ (Plant Bio)</span><span class="font-mono text-slate-400">15%</span></div>
+            <div class="bg-gradient-to-br from-slate-900 to-cyan-950 p-4 rounded-2xl border border-cyan-500/30 shadow-lg">
+                <h2 class="font-bold text-cyan-400 text-xs mb-2 flex items-center gap-2 uppercase tracking-wide">
+                    <i data-lucide="trending-up" class="w-4 h-4 text-cyan-400 animate-pulse"></i> Performance Trend Analyzer
+                </h2>
+                <div id="trend-status-box" class="bg-slate-950 p-3 rounded-xl border border-slate-800 text-xs text-slate-300 space-y-1">
+                    กรุณากรอกคะแนนย้อนหลังด้านล่างเพื่อตรวจสอบแนวโน้มการพัฒนา...
                 </div>
             </div>
 
             <div class="bg-slate-900/50 p-5 rounded-2xl border border-slate-800">
-                <h2 class="font-bold text-emerald-400 text-xs mb-1 flex items-center gap-2 uppercase font-mono"><i data-lucide="cpu" class="w-4 h-4"></i> Mock Test Core Analyzer</h2>
+                <h2 class="font-bold text-emerald-400 text-xs mb-1 flex items-center gap-2 uppercase tracking-wide"><i data-lucide="cpu" class="w-4 h-4"></i> Mock Test Core Analyzer</h2>
                 <div class="grid grid-cols-2 gap-2 mb-3 mt-2">
                     <input type="number" id="mock-full" placeholder="คะแนนเต็ม" class="p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-100 font-mono">
                     <input type="number" id="mock-user" placeholder="คะแนนที่ได้" class="p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-100 font-mono">
                 </div>
-                <button onclick="analyzeMockScore()" class="w-full bg-emerald-500 text-slate-950 font-bold py-2 rounded-xl text-xs uppercase hover:brightness-110 transition-all">EXECUTE CURRENT SCORE</button>
-            </div>
-
-            <div id="analysis-report-box" class="bg-slate-900/50 p-4 rounded-2xl border border-slate-800 hidden">
-                <div id="analysis-output" class="text-xs text-slate-300 space-y-2"></div>
+                <button onclick="analyzeMockScore()" class="w-full bg-emerald-500 text-slate-950 font-bold py-2 rounded-xl text-xs uppercase tracking-wider hover:brightness-110 transition-all">EXECUTE CURRENT SCORE</button>
+                <div id="analysis-report-box" class="mt-3 bg-slate-950 p-3 rounded-xl border border-slate-800 hidden text-xs"></div>
             </div>
 
             <div class="bg-slate-900/50 p-5 rounded-2xl border border-slate-800">
-                <h2 class="font-bold text-cyan-400 text-xs mb-1 flex items-center gap-2 uppercase font-mono"><i data-lucide="history" class="w-4 h-4"></i> Past Paper Mastery Tracker</h2>
+                <h2 class="font-bold text-cyan-400 text-xs mb-1 flex items-center gap-2 uppercase tracking-wide"><i data-lucide="history" class="w-4 h-4"></i> Past Paper Mastery Tracker</h2>
                 <div class="space-y-3 mt-2">
                     <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-2">
                         <div class="flex items-center justify-between text-xs">
-                            <span class="text-slate-200 font-mono font-bold">สอวน. ปี 2565 - 2568 (เฉลี่ยภาพรวม)</span>
-                            <input type="number" id="hist-avg" placeholder="คะแนน %" oninput="saveHistScores()" class="w-16 p-1 rounded bg-slate-900 border border-slate-700 text-center text-emerald-400 font-mono text-[11px]">
+                            <span class="text-slate-200 font-mono font-bold">สอวน. ปี 2565</span>
+                            <input type="number" id="hist-65" placeholder="คะแนน %" oninput="saveAndCalcTrend()" class="w-16 p-1 rounded bg-slate-900 border border-slate-700 text-center text-emerald-400 font-mono text-[11px]">
+                        </div>
+                    </div>
+                    <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-2">
+                        <div class="flex items-center justify-between text-xs">
+                            <span class="text-slate-200 font-mono font-bold">สอวน. ปี 2566</span>
+                            <input type="number" id="hist-66" placeholder="คะแนน %" oninput="saveAndCalcTrend()" class="w-16 p-1 rounded bg-slate-900 border border-slate-700 text-center text-emerald-400 font-mono text-[11px]">
+                        </div>
+                    </div>
+                    <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-2">
+                        <div class="flex items-center justify-between text-xs">
+                            <span class="text-slate-200 font-mono font-bold">สอวน. ปี 2567</span>
+                            <input type="number" id="hist-67" placeholder="คะแนน %" oninput="saveAndCalcTrend()" class="w-16 p-1 rounded bg-slate-900 border border-slate-700 text-center text-emerald-400 font-mono text-[11px]">
+                        </div>
+                    </div>
+                    <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-2">
+                        <div class="flex items-center justify-between text-xs">
+                            <span class="text-slate-200 font-mono font-bold">สอวน. ปี 2568</span>
+                            <input type="number" id="hist-68" placeholder="คะแนน %" oninput="saveAndCalcTrend()" class="w-16 p-1 rounded bg-slate-900 border border-slate-700 text-center text-emerald-400 font-mono text-[11px]">
                         </div>
                     </div>
                 </div>
@@ -174,6 +239,302 @@
 
         <div id="page-flash" class="max-w-md mx-auto px-4 mt-4 space-y-4 hidden">
             <div class="bg-slate-900/50 p-5 rounded-2xl border border-slate-800 text-center">
-                <h2 class="font-bold text-emerald-400 text-xs mb-1 flex items-center justify-center gap-2"><i data-lucide="zap" class="w-4 h-4"></i> Active Recall Flashcards</h2>
+                <h2 class="font-bold text-emerald-400 text-xs mb-1 flex items-center justify-center gap-2 uppercase tracking-wide"><i data-lucide="zap" class="w-4 h-4"></i> Active Recall Flashcards</h2>
                 <div class="w-full h-44 cursor-pointer perspective mt-4" onclick="flipCard()">
-                    <div id="flash-card-inner"
+                    <div id="flash-card-inner" class="flip-card-inner w-full h-full relative rounded-2xl border border-emerald-500/30">
+                        <div class="absolute inset-0 bg-slate-900 rounded-2xl p-4 flex flex-col justify-between backface-hidden items-center">
+                            <span id="flash-badge" class="text-[9px] bg-emerald-950 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/20 font-mono">QUESTION</span>
+                            <p id="flash-front-text" class="text-xs font-semibold text-slate-100 px-2 flex-1 flex items-center justify-center">LOADING...</p>
+                            <span class="text-[9px] text-slate-500 flex items-center gap-1"><i data-lucide="help-circle" class="w-3 h-3"></i> แตะเพื่อดูเฉลย</span>
+                        </div>
+                        <div class="absolute inset-0 bg-slate-900 rounded-2xl p-4 flex flex-col justify-between backface-hidden rotate-y-180 items-center border-t-2 border-emerald-500">
+                            <span class="text-[9px] bg-cyan-950 text-cyan-400 px-2 py-0.5 rounded border border-cyan-500/20 font-mono">SOLUTION</span>
+                            <p id="flash-back-text" class="text-xs text-emerald-400 font-mono px-2 flex-1 flex items-center justify-center">LOADING...</p>
+                            <span class="text-[9px] text-slate-500">แตะเพื่อสลับกลับ</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex gap-2 mt-4">
+                    <button onclick="prevCard()" class="flex-1 bg-slate-950 border border-slate-800 text-slate-300 py-2 rounded-xl text-xs font-semibold">◀ BACK</button>
+                    <button onclick="nextCard()" class="flex-1 bg-slate-950 border border-emerald-500/30 text-emerald-400 py-2 rounded-xl text-xs font-semibold">NEXT ▶</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="page-notes" class="max-w-md mx-auto px-4 mt-4 space-y-4 hidden">
+            <div class="bg-slate-900/50 p-5 rounded-2xl border border-slate-800">
+                <h2 class="font-bold text-emerald-400 text-xs mb-1 flex items-center gap-2 uppercase tracking-wide"><i data-lucide="terminal" class="w-4 h-4"></i> Bio-Memo Buffer</h2>
+                <textarea id="quick-memo" rows="9" placeholder="[พิมพ์บันทึกความจำไว้ที่นี่...]" class="w-full p-3 rounded-xl bg-slate-950 border border-slate-800 focus:outline-none focus:border-emerald-500 text-xs font-mono text-emerald-400 mt-2"></textarea>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        // ================= 🔐 AUTH SYSTEM =================
+        function initSecurityGate() {
+            const registeredUser = localStorage.getItem('matrix_user');
+            const loginScreen = document.getElementById('login-screen');
+            const mainDashboard = document.getElementById('main-dashboard');
+            
+            if (!registeredUser) {
+                document.getElementById('login-title').innerText = "CREATE ACCOUNT MATRIX";
+                document.getElementById('login-subtitle').innerText = "เปิดใช้งานครั้งแรก: ตั้งค่า Username และ Password ของคุณ";
+                document.getElementById('auth-btn').innerText = "REGISTER & GENERATE KEY";
+            } else {
+                if (localStorage.getItem('matrix_session_active') === 'true') {
+                    loginScreen.classList.add('hidden');
+                    mainDashboard.classList.remove('hidden');
+                    document.getElementById('user-display-name').innerText = registeredUser.toUpperCase();
+                }
+            }
+        }
+
+        function handleAuth() {
+            const usernameInput = document.getElementById('auth-user').value.trim();
+            const passwordInput = document.getElementById('auth-pass').value.trim();
+            const registeredUser = localStorage.getItem('matrix_user');
+
+            if (!usernameInput || !passwordInput) {
+                alert("กรุณากรอกข้อมูลให้ครบถ้วนครับ");
+                return;
+            }
+
+            if (!registeredUser) {
+                localStorage.setItem('matrix_user', usernameInput);
+                localStorage.setItem('matrix_pass', passwordInput);
+                localStorage.setItem('matrix_session_active', 'true');
+                alert("สร้างบัญชีผู้ใช้ระบบสำเร็จ!");
+                location.reload();
+            } else {
+                const correctPass = localStorage.getItem('matrix_pass');
+                if (usernameInput.toLowerCase() === registeredUser.toLowerCase() && passwordInput === correctPass) {
+                    localStorage.setItem('matrix_session_active', 'true');
+                    document.getElementById('login-screen').classList.add('hidden');
+                    document.getElementById('main-dashboard').classList.remove('hidden');
+                    document.getElementById('user-display-name').innerText = usernameInput.toUpperCase();
+                } else {
+                    alert("⚠️ ตรวจพบข้อผิดพลาด: ข้อมูลล็อกอินไม่ถูกต้อง!");
+                }
+            }
+        }
+
+        function handleLogout() {
+            if (confirm("ต้องการออกจากระบบใช่หรือไม่?")) {
+                localStorage.setItem('matrix_session_active', 'false');
+                location.reload();
+            }
+        }
+
+        // ================= 📈 TREND ANALYTICS LOGIC =================
+        function saveAndCalcTrend() {
+            const v65 = parseFloat(document.getElementById('hist-65').value) || 0;
+            const v66 = parseFloat(document.getElementById('hist-66').value) || 0;
+            const v67 = parseFloat(document.getElementById('hist-67').value) || 0;
+            const v68 = parseFloat(document.getElementById('hist-68').value) || 0;
+
+            localStorage.setItem('hist-score-65', v65);
+            localStorage.setItem('hist-score-66', v66);
+            localStorage.setItem('hist-score-67', v67);
+            localStorage.setItem('hist-score-68', v68);
+
+            const scores = [];
+            if(v65) scores.push({y:'65', s:v65});
+            if(v66) scores.push({y:'66', s:v66});
+            if(v67) scores.push({y:'67', s:v67});
+            if(v68) scores.push({y:'68', s:v68});
+
+            const trendBox = document.getElementById('trend-status-box');
+            if (scores.length < 2) {
+                trendBox.innerHTML = "💡 <i>กรอกคะแนนย้อนหลังอย่างน้อย 2 ปีเพื่อดูแผนภูมิแนวโน้มความเสถียร...</i>";
+                return;
+            }
+
+            let htmlOutput = "";
+            let isImproving = true;
+            for(let i=1; i<scores.length; i++) {
+                if(scores[i].s < scores[i-1].s) isImproving = false;
+            }
+
+            const latestScore = scores[scores.length-1].s;
+
+            if (isImproving) {
+                htmlOutput = `<span class="text-emerald-400 font-bold flex items-center gap-1">📈 แนวโน้ม: พัฒนาต่อเนื่องเป็นขาขึ้นชัดเจน!</span>`;
+            } else if (latestScore >= 55) {
+                htmlOutput = `<span class="text-cyan-400 font-bold flex items-center gap-1">📊 แนวโน้ม: คะแนนแกว่งตัว แต่เกาะกลุ่ม Safe Zone</span>`;
+            } else {
+                htmlOutput = `<span class="text-amber-400 font-bold flex items-center gap-1">📉 แนวโน้ม: คะแนนมีความเสี่ยง/ลดลง ควรเจาะลึกบทสรีรวิทยาเพิ่ม</span>`;
+            }
+
+            htmlOutput += `<p class="text-[10px] text-slate-400 mt-1">คะแนนเฉลี่ยอัปเดตล่าสุด: ${(scores.reduce((a,b)=>a+b.s,0)/scores.length).toFixed(1)}%</p>`;
+            trendBox.innerHTML = htmlOutput;
+        }
+
+        // ================= 📅 LIVE DATE & PLANNER ENGINE =================
+        const checkboxes = document.querySelectorAll('.todo-checkbox');
+        const globalProgressBar = document.getElementById('global-progress-bar');
+        const globalProgressText = document.getElementById('global-progress-text');
+        const resetBtn = document.getElementById('reset-btn');
+        const quickMemo = document.getElementById('quick-memo');
+
+        function updateCountdown() {
+            const examDate = new Date("August 30, 2026 09:00:00").getTime();
+            const distance = examDate - new Date().getTime();
+            if (distance < 0) { document.getElementById("countdown-text").innerText = "EXAM COMPLETED"; return 0; }
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            document.getElementById("countdown-text").innerText = `T-MINUS ${days} DAYS`;
+            return days;
+        }
+
+        function calculateLivePlanner() {
+            const today = new Date();
+            const currentDayOfWeek = today.getDay(); // 0 = Sunday, 1 = Monday, etc.
+            const missionBox = document.getElementById('daily-mission-box');
+
+            // 🔋 ตรวจสอบวันอาทิตย์เป็นวันพักผ่อนเด็ดขาด
+            if (currentDayOfWeek === 0) {
+                missionBox.innerHTML = `
+                    <div class="border border-cyan-500/30 p-2.5 rounded-xl bg-cyan-950/40">
+                        <p class="font-bold text-cyan-400 text-xs flex items-center gap-1 uppercase">🔋 ABSOLUTE REST DAY (วันอาทิตย์)</p>
+                        <p class="text-[11px] text-slate-200 mt-1 leading-relaxed">
+                            งดอ่านหนังสือหนัก 100%! ให้สมองได้รีเซ็ต ฟื้นฟูสายตาและเครือข่ายประสาท ไปกินเนื้อย่าง หมูกระทะ ซอยจุ๊ หรือเล่นเกมชิลๆ เคลียร์สมองให้โล่งเพื่อลุยต่อวันพรุ่งนี้ครับ!
+                        </p>
+                    </div>
+                `;
+                return;
+            }
+
+            // ค้นหาหัวข้อที่ยังไม่ได้ Check เพื่อนำมาดันเป็นภารกิจประจำวัน
+            let nextTopic = "เก็บตกเนื้อหาที่ค้างคา และลุยทำโจทย์ข้อสอบเก่า!";
+            for (let cb of checkboxes) {
+                if (!cb.checked) {
+                    nextTopic = cb.closest('label').querySelector('span').innerText;
+                    break;
+                }
+            }
+
+            missionBox.innerHTML = `
+                <p class="font-semibold text-emerald-400 mb-1">🎯 ภารกิจหลักวันนี้ (ลุยจนกว่าจะสมบูรณ์):</p>
+                <p class="text-white font-medium mb-2">👉 ${nextTopic}</p>
+                <p class="text-[10px] text-slate-400 italic border-t border-slate-800 pt-1.5 mt-1">
+                    *เมื่ออ่านเสร็จแล้วให้กดทำเครื่องหมายถูกด้านล่าง แถบความคืบหน้าจะประมวลผลทันที
+                </p>
+            `;
+        }
+
+        // ================= POMODORO & APP CORE =================
+        const defaultFlashcards = [
+            { q: "Glycolysis เกิดขึ้นที่บริเวณใดของเซลล์ และได้กี่ Net ATP?", a: "เกิดที่ Cytosol / ได้สุทธิ 2 ATP (และ 2 NADH)" },
+            { q: "สูตรประชากรสมดุลของ Hardy-Weinberg มีสมการอย่างไร?", a: "p² + 2pq + q² = 1" },
+            { q: "พืชกลุ่มใดมีการตรึงคาร์บอน 2 ครั้ง แยกตามสถานที่?", a: "พืชกลุ่ม C4 (เช่น ข้าวโพด ข้าวฟ่าง อ้อย)" }
+        ];
+        let currentCardIndex = 0;
+        let pomoMinutes = 25, pomoSeconds = 0, pomoTimer = null, isPomoRunning = false, pomoMode = 'focus';
+
+        function togglePomodoro() {
+            const btn = document.getElementById('pomo-start-btn');
+            if (isPomoRunning) {
+                clearInterval(pomoTimer); btn.innerText = "START";
+                btn.className = "bg-cyan-500 text-slate-950 text-[10px] font-bold px-3 py-1.5 rounded-lg";
+            } else {
+                pomoTimer = setInterval(runPomodoro, 1000); btn.innerText = "PAUSE";
+                btn.className = "bg-amber-500 text-slate-950 text-[10px] font-bold px-3 py-1.5 rounded-lg";
+            }
+            isPomoRunning = !isPomoRunning;
+        }
+
+        function runPomodoro() {
+            if (pomoSeconds === 0) {
+                if (pomoMinutes === 0) {
+                    triggerPomoSound();
+                    if (pomoMode === 'focus') { pomoMode = 'break'; pomoMinutes = 5; } 
+                    else { pomoMode = 'focus'; pomoMinutes = 25; }
+                    document.getElementById('pomo-status').innerText = pomoMode === 'focus' ? "POMODORO FOCUS" : "BREAK TIME";
+                } else { pomoMinutes--; pomoSeconds = 59; }
+            } else { pomoSeconds--; }
+            displayPomoTime();
+        }
+
+        function resetPomodoro() {
+            clearInterval(pomoTimer); isPomoRunning = false; pomoMode = 'focus'; pomoMinutes = 25; pomoSeconds = 0;
+            document.getElementById('pomo-start-btn').innerText = "START"; displayPomoTime();
+        }
+
+        function displayPomoTime() {
+            const m = pomoMinutes < 10 ? '0' + pomoMinutes : pomoMinutes;
+            const s = pomoSeconds < 10 ? '0' + pomoSeconds : pomoSeconds;
+            document.getElementById('pomo-time').innerText = `${m}:${s}`;
+        }
+
+        function triggerPomoSound() {
+            alert(pomoMode === 'focus' ? "🔥 หมดเวลาโฟกัส! พักผ่อน 5 นาทีครับ" : "📚 หมดเวลาพัก! กลับมาลุยกันต่อครับ");
+        }
+
+        function switchTab(tabName) {
+            ['planner', 'mock', 'flash', 'notes'].forEach(t => {
+                const page = document.getElementById(`page-${t}`);
+                const btn = document.getElementById(`tab-${t}`);
+                if(t === tabName) {
+                    page.classList.remove('hidden');
+                    btn.className = "flex-1 text-center py-2 rounded-lg font-bold transition-all bg-emerald-500 text-slate-950";
+                } else {
+                    page.classList.add('hidden');
+                    btn.className = "flex-1 text-center py-2 rounded-lg font-bold transition-all text-slate-400 hover:bg-slate-900";
+                }
+            });
+        }
+
+        function flipCard() { document.getElementById('flash-card-inner').classList.toggle('flipped'); }
+        function updateCardContent() {
+            const card = defaultFlashcards[currentCardIndex];
+            document.getElementById('flash-front-text').innerText = card.q;
+            document.getElementById('flash-back-text').innerText = card.a;
+            document.getElementById('flash-badge').innerText = `NODE: ${currentCardIndex + 1}/${defaultFlashcards.length}`;
+        }
+        function nextCard() { currentCardIndex = (currentCardIndex + 1) % defaultFlashcards.length; updateCardContent(); }
+        function prevCard() { currentCardIndex = (currentCardIndex - 1 + defaultFlashcards.length) % defaultFlashcards.length; updateCardContent(); }
+
+        function updateGlobalProgress() {
+            const total = checkboxes.length, checked = document.querySelectorAll('.todo-checkbox:checked').length;
+            const pct = total > 0 ? Math.round((checked / total) * 100) : 0;
+            globalProgressBar.style.width = `${pct}%`;
+            globalProgressText.innerText = `${pct}%`;
+            calculateLivePlanner(); updateCountdown();
+        }
+
+        window.onload = function() {
+            initSecurityGate();
+            document.getElementById('hist-65').value = localStorage.getItem('hist-score-65') || '';
+            document.getElementById('hist-66').value = localStorage.getItem('hist-score-66') || '';
+            document.getElementById('hist-67').value = localStorage.getItem('hist-score-67') || '';
+            document.getElementById('hist-68').value = localStorage.getItem('hist-score-68') || '';
+            
+            checkboxes.forEach(checkbox => {
+                if (localStorage.getItem(checkbox.id) === 'true') checkbox.checked = true;
+                checkbox.addEventListener('change', () => { localStorage.setItem(checkbox.id, checkbox.checked); updateGlobalProgress(); });
+            });
+            quickMemo.value = localStorage.getItem('saved-bio-memo') || '';
+            quickMemo.addEventListener('input', () => localStorage.setItem('saved-bio-memo', quickMemo.value));
+            
+            updateGlobalProgress(); updateCardContent(); saveAndCalcTrend();
+        }
+
+        resetBtn.addEventListener('click', () => {
+            if(confirm('WARN: ต้องการล้างประวัติเนื้อหาทั้งหมดใช่หรือไม่?')) {
+                checkboxes.forEach(cb => { cb.checked = false; localStorage.removeItem(cb.id); });
+                updateGlobalProgress();
+            }
+        });
+
+        function analyzeMockScore() {
+            const full = parseFloat(document.getElementById('mock-full').value), user = parseFloat(document.getElementById('mock-user').value);
+            if (!full || !user || user > full) return alert('กรอกคะแนนให้ถูกต้องครับ');
+            const pct = (user / full) * 100;
+            const reportBox = document.getElementById('analysis-report-box');
+            reportBox.classList.remove('hidden');
+            reportBox.innerHTML = `<p class="font-bold text-emerald-400">${pct >= 55 ? "🌟 ผ่านเกณฑ์ Safe Zone สอวน.!" : "⚠️ ต้องเร่งเก็บจุดผิดเพิ่มครับ"}</p><p class="text-[10px]">คิดเป็น ${pct.toFixed(1)}%</p>`;
+        }
+    </script>
+</body>
+</html>
