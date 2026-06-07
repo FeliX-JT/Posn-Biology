@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>POSN Bio God-Mode Matrix v4.0</title>
+    <title>POSN Bio God-Mode Matrix v4.1</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&display=swap" rel="stylesheet">
@@ -27,17 +27,17 @@
                     <i data-lucide="shield-check" class="w-8 h-8"></i>
                 </div>
                 <h2 id="login-title" class="text-lg font-bold text-emerald-400 tracking-wider">BIO-CORE SECURITY GATE</h2>
-                <p id="login-subtitle" class="text-[11px] text-slate-400 mt-1">กรุณายืนยันตัวตนเพื่อเข้าสู่ระบบ Matrix</p>
+                <p id="login-subtitle" class="text-[11px] text-slate-400 mt-1">กรุณาตั้งค่าหรือกรอกข้อมูลเพื่อเข้าสู่ระบบ Matrix</p>
             </div>
 
             <div class="space-y-4">
                 <div>
                     <label class="text-[10px] text-slate-400 block mb-1 uppercase font-semibold font-mono">Access Username</label>
-                    <input type="text" id="auth-user" placeholder="ระบุชื่อผู้ใช้" class="w-full p-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-200 focus:outline-none focus:border-emerald-500 font-mono">
+                    <input type="text" id="auth-user" placeholder="ระบุชื่อผู้ใช้ (เช่น THATTHEP)" class="w-full p-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-200 focus:outline-none focus:border-emerald-500 font-mono">
                 </div>
                 <div>
                     <label class="text-[10px] text-slate-400 block mb-1 uppercase font-semibold font-mono">Security Password</label>
-                    <input type="password" id="auth-pass" placeholder="ระบุรหัสผ่าน" class="w-full p-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-200 focus:outline-none focus:border-emerald-500 font-mono">
+                    <input type="password" id="auth-pass" placeholder="ระบุรหัสผ่านอะไรก็ได้" class="w-full p-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-200 focus:outline-none focus:border-emerald-500 font-mono">
                 </div>
                 
                 <button onclick="handleAuth()" id="auth-btn" class="w-full bg-emerald-500 text-slate-950 font-bold py-3 rounded-xl text-xs uppercase tracking-wider shadow-lg hover:brightness-110 transition-all mt-2">
@@ -53,7 +53,7 @@
                 <div class="flex justify-between items-center">
                     <h1 class="text-base font-bold flex items-center gap-1.5 text-emerald-400 drop-shadow-[0_0_8px_rgba(52,211,153,0.5)]">
                         <i data-lucide="dna" class="w-4 h-4 animate-pulse text-emerald-400"></i>
-                        BIO-CORE NEXUS <span class="text-[9px] bg-emerald-500/20 px-1 rounded text-emerald-300">v4.0</span>
+                        BIO-CORE NEXUS <span class="text-[9px] bg-emerald-500/20 px-1 rounded text-emerald-300">v4.1</span>
                     </h1>
                     <div class="bg-emerald-950/60 text-emerald-400 text-[10px] font-bold px-2.5 py-1 rounded-full border border-emerald-500/40 flex items-center gap-1">
                         <span class="w-1 h-1 rounded-full bg-red-500 animate-ping"></span>
@@ -270,11 +270,23 @@
     </div>
 
     <script>
-        lucide.createIcons();
+        // ================= 🧠 FAIL-SAFE MEMORY INTERFACE =================
+        const memoryDatabase = {};
+        const safeStorage = {
+            getItem: function(key) {
+                try { return localStorage.getItem(key); } catch(e) { return memoryDatabase[key] || null; }
+            },
+            setItem: function(key, value) {
+                try { localStorage.setItem(key, value); } catch(e) { memoryDatabase[key] = String(value); }
+            },
+            removeItem: function(key) {
+                try { localStorage.removeItem(key); } catch(e) { delete memoryDatabase[key]; }
+            }
+        };
 
-        // ================= 🔐 AUTH SYSTEM =================
+        // ================= 🔐 AUTH SYSTEM (INSTANT TRANSITION) =================
         function initSecurityGate() {
-            const registeredUser = localStorage.getItem('matrix_user');
+            const registeredUser = safeStorage.getItem('matrix_user');
             const loginScreen = document.getElementById('login-screen');
             const mainDashboard = document.getElementById('main-dashboard');
             
@@ -283,18 +295,19 @@
                 document.getElementById('login-subtitle').innerText = "เปิดใช้งานครั้งแรก: ตั้งค่า Username และ Password ของคุณ";
                 document.getElementById('auth-btn').innerText = "REGISTER & GENERATE KEY";
             } else {
-                if (localStorage.getItem('matrix_session_active') === 'true') {
+                if (safeStorage.getItem('matrix_session_active') === 'true') {
                     loginScreen.classList.add('hidden');
                     mainDashboard.classList.remove('hidden');
                     document.getElementById('user-display-name').innerText = registeredUser.toUpperCase();
                 }
             }
+            lucide.createIcons();
         }
 
         function handleAuth() {
             const usernameInput = document.getElementById('auth-user').value.trim();
             const passwordInput = document.getElementById('auth-pass').value.trim();
-            const registeredUser = localStorage.getItem('matrix_user');
+            const registeredUser = safeStorage.getItem('matrix_user');
 
             if (!usernameInput || !passwordInput) {
                 alert("กรุณากรอกข้อมูลให้ครบถ้วนครับ");
@@ -302,18 +315,24 @@
             }
 
             if (!registeredUser) {
-                localStorage.setItem('matrix_user', usernameInput);
-                localStorage.setItem('matrix_pass', passwordInput);
-                localStorage.setItem('matrix_session_active', 'true');
-                alert("สร้างบัญชีผู้ใช้ระบบสำเร็จ!");
-                location.reload();
+                // สมัครครั้งแรก -> บันทึกข้อมูลและข้ามเข้าหน้าหลักทันทีโดยไม่โหลดหน้าซ้ำ
+                safeStorage.setItem('matrix_user', usernameInput);
+                safeStorage.setItem('matrix_pass', passwordInput);
+                safeStorage.setItem('matrix_session_active', 'true');
+                
+                document.getElementById('login-screen').classList.add('hidden');
+                document.getElementById('main-dashboard').classList.remove('hidden');
+                document.getElementById('user-display-name').innerText = usernameInput.toUpperCase();
+                alert("สร้างบัญชีผู้ใช้และเปิด Matrix สำเร็จ!");
+                updateGlobalProgress();
             } else {
-                const correctPass = localStorage.getItem('matrix_pass');
+                const correctPass = safeStorage.getItem('matrix_pass');
                 if (usernameInput.toLowerCase() === registeredUser.toLowerCase() && passwordInput === correctPass) {
-                    localStorage.setItem('matrix_session_active', 'true');
+                    safeStorage.setItem('matrix_session_active', 'true');
                     document.getElementById('login-screen').classList.add('hidden');
                     document.getElementById('main-dashboard').classList.remove('hidden');
                     document.getElementById('user-display-name').innerText = usernameInput.toUpperCase();
+                    updateGlobalProgress();
                 } else {
                     alert("⚠️ ตรวจพบข้อผิดพลาด: ข้อมูลล็อกอินไม่ถูกต้อง!");
                 }
@@ -322,8 +341,9 @@
 
         function handleLogout() {
             if (confirm("ต้องการออกจากระบบใช่หรือไม่?")) {
-                localStorage.setItem('matrix_session_active', 'false');
-                location.reload();
+                safeStorage.setItem('matrix_session_active', 'false');
+                document.getElementById('main-dashboard').classList.add('hidden');
+                document.getElementById('login-screen').classList.remove('hidden');
             }
         }
 
@@ -334,10 +354,10 @@
             const v67 = parseFloat(document.getElementById('hist-67').value) || 0;
             const v68 = parseFloat(document.getElementById('hist-68').value) || 0;
 
-            localStorage.setItem('hist-score-65', v65);
-            localStorage.setItem('hist-score-66', v66);
-            localStorage.setItem('hist-score-67', v67);
-            localStorage.setItem('hist-score-68', v68);
+            safeStorage.setItem('hist-score-65', v65);
+            safeStorage.setItem('hist-score-66', v66);
+            safeStorage.setItem('hist-score-67', v67);
+            safeStorage.setItem('hist-score-68', v68);
 
             const scores = [];
             if(v65) scores.push({y:'65', s:v65});
@@ -392,7 +412,6 @@
             const currentDayOfWeek = today.getDay(); // 0 = Sunday, 1 = Monday, etc.
             const missionBox = document.getElementById('daily-mission-box');
 
-            // 🔋 ตรวจสอบวันอาทิตย์เป็นวันพักผ่อนเด็ดขาด
             if (currentDayOfWeek === 0) {
                 missionBox.innerHTML = `
                     <div class="border border-cyan-500/30 p-2.5 rounded-xl bg-cyan-950/40">
@@ -405,7 +424,6 @@
                 return;
             }
 
-            // ค้นหาหัวข้อที่ยังไม่ได้ Check เพื่อนำมาดันเป็นภารกิจประจำวัน
             let nextTopic = "เก็บตกเนื้อหาที่ค้างคา และลุยทำโจทย์ข้อสอบเก่า!";
             for (let cb of checkboxes) {
                 if (!cb.checked) {
@@ -477,10 +495,10 @@
                 const btn = document.getElementById(`tab-${t}`);
                 if(t === tabName) {
                     page.classList.remove('hidden');
-                    btn.className = "flex-1 text-center py-2 rounded-lg font-bold transition-all bg-emerald-500 text-slate-950";
+                    btn.className = "flex-1 text-center py-2 rounded-lg font-bold transition-all bg-emerald-500 text-slate-950 shadow-[0_0_10px_rgba(16,185,129,0.3)]";
                 } else {
                     page.classList.add('hidden');
-                    btn.className = "flex-1 text-center py-2 rounded-lg font-bold transition-all text-slate-400 hover:bg-slate-900";
+                    btn.className = "flex-1 text-center py-2 rounded-lg font-bold transition-all text-slate-400 hover:bg-slate-900 hover:text-slate-200";
                 }
             });
         }
@@ -505,24 +523,24 @@
 
         window.onload = function() {
             initSecurityGate();
-            document.getElementById('hist-65').value = localStorage.getItem('hist-score-65') || '';
-            document.getElementById('hist-66').value = localStorage.getItem('hist-score-66') || '';
-            document.getElementById('hist-67').value = localStorage.getItem('hist-score-67') || '';
-            document.getElementById('hist-68').value = localStorage.getItem('hist-score-68') || '';
+            document.getElementById('hist-65').value = safeStorage.getItem('hist-score-65') || '';
+            document.getElementById('hist-66').value = safeStorage.getItem('hist-score-66') || '';
+            document.getElementById('hist-67').value = safeStorage.getItem('hist-score-67') || '';
+            document.getElementById('hist-68').value = safeStorage.getItem('hist-score-68') || '';
             
             checkboxes.forEach(checkbox => {
-                if (localStorage.getItem(checkbox.id) === 'true') checkbox.checked = true;
-                checkbox.addEventListener('change', () => { localStorage.setItem(checkbox.id, checkbox.checked); updateGlobalProgress(); });
+                if (safeStorage.getItem(checkbox.id) === 'true') checkbox.checked = true;
+                checkbox.addEventListener('change', () => { safeStorage.setItem(checkbox.id, checkbox.checked); updateGlobalProgress(); });
             });
-            quickMemo.value = localStorage.getItem('saved-bio-memo') || '';
-            quickMemo.addEventListener('input', () => localStorage.setItem('saved-bio-memo', quickMemo.value));
+            quickMemo.value = safeStorage.getItem('saved-bio-memo') || '';
+            quickMemo.addEventListener('input', () => safeStorage.setItem('saved-bio-memo', quickMemo.value));
             
             updateGlobalProgress(); updateCardContent(); saveAndCalcTrend();
         }
 
         resetBtn.addEventListener('click', () => {
             if(confirm('WARN: ต้องการล้างประวัติเนื้อหาทั้งหมดใช่หรือไม่?')) {
-                checkboxes.forEach(cb => { cb.checked = false; localStorage.removeItem(cb.id); });
+                checkboxes.forEach(cb => { cb.checked = false; safeStorage.removeItem(cb.id); });
                 updateGlobalProgress();
             }
         });
