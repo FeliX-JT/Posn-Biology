@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>POSN Bio God-Mode Matrix v4.2</title>
+    <title>POSN Bio God-Mode Matrix v4.3</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&display=swap" rel="stylesheet">
@@ -53,7 +53,7 @@
                 <div class="flex justify-between items-center">
                     <h1 class="text-base font-bold flex items-center gap-1.5 text-emerald-400 drop-shadow-[0_0_8px_rgba(52,211,153,0.5)]">
                         <i data-lucide="dna" class="w-4 h-4 animate-pulse text-emerald-400"></i>
-                        BIO-CORE NEXUS <span class="text-[9px] bg-emerald-500/20 px-1 rounded text-emerald-300">v4.2</span>
+                        BIO-CORE NEXUS <span class="text-[9px] bg-emerald-500/20 px-1 rounded text-emerald-300">v4.3</span>
                     </h1>
                     <div class="bg-emerald-950/60 text-emerald-400 text-[10px] font-bold px-2.5 py-1 rounded-full border border-emerald-500/40 flex items-center gap-1">
                         <span class="w-1 h-1 rounded-full bg-red-500 animate-ping"></span>
@@ -244,24 +244,61 @@
 
         <div id="page-flash" class="max-w-md mx-auto px-4 mt-4 space-y-4 hidden">
             <div class="bg-slate-900/50 p-5 rounded-2xl border border-slate-800 text-center">
-                <h2 class="font-bold text-emerald-400 text-xs mb-1 flex items-center justify-center gap-2 uppercase tracking-wide"><i data-lucide="zap" class="w-4 h-4"></i> Active Recall Flashcards</h2>
-                <div class="w-full h-44 cursor-pointer perspective mt-4" onclick="flipCard()">
-                    <div id="flash-card-inner" class="flip-card-inner w-full h-full relative rounded-2xl border border-emerald-500/30">
-                        <div class="absolute inset-0 bg-slate-900 rounded-2xl p-4 flex flex-col justify-between backface-hidden items-center">
+                <div class="flex justify-between items-center mb-1">
+                    <h2 class="font-bold text-emerald-400 text-xs flex items-center gap-2 uppercase tracking-wide">
+                        <i data-lucide="zap" class="w-4 h-4"></i> Active Recall Flashcards
+                    </h2>
+                    <button id="delete-card-btn" onclick="deleteCurrentCard()" class="text-red-400 hover:text-red-300 p-1 bg-red-950/40 rounded-lg border border-red-500/20 text-[10px] hidden font-bold">
+                        DELETE NODE
+                    </button>
+                </div>
+
+                <div class="w-full min-h-[16rem] cursor-pointer perspective mt-3" onclick="flipCard()">
+                    <div id="flash-card-inner" class="flip-card-inner w-full h-full min-h-[16rem] relative rounded-2xl border border-emerald-500/30">
+                        <div class="absolute inset-0 bg-slate-900 rounded-2xl p-4 flex flex-col justify-between backface-hidden items-center overflow-y-auto">
                             <span id="flash-badge" class="text-[9px] bg-emerald-950 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/20 font-mono">QUESTION</span>
-                            <p id="flash-front-text" class="text-xs font-semibold text-slate-100 px-2 flex-1 flex items-center justify-center">LOADING...</p>
+                            <div class="flex flex-col items-center justify-center flex-1 w-full gap-2 my-2">
+                                <p id="flash-front-text" class="text-xs font-semibold text-slate-100 text-center px-1">LOADING...</p>
+                                <img id="flash-front-img" class="max-h-24 object-contain rounded border border-slate-800 hidden shadow-md" alt="Flashcard Source">
+                            </div>
                             <span class="text-[9px] text-slate-500 flex items-center gap-1"><i data-lucide="help-circle" class="w-3 h-3"></i> แตะเพื่อดูเฉลย</span>
                         </div>
-                        <div class="absolute inset-0 bg-slate-900 rounded-2xl p-4 flex flex-col justify-between backface-hidden rotate-y-180 items-center border-t-2 border-emerald-500">
+                        <div class="absolute inset-0 bg-slate-900 rounded-2xl p-4 flex flex-col justify-between backface-hidden rotate-y-180 items-center overflow-y-auto border-t-2 border-emerald-500">
                             <span class="text-[9px] bg-cyan-950 text-cyan-400 px-2 py-0.5 rounded border border-cyan-500/20 font-mono">SOLUTION</span>
-                            <p id="flash-back-text" class="text-xs text-emerald-400 font-mono px-2 flex-1 flex items-center justify-center">LOADING...</p>
+                            <div class="flex flex-col items-center justify-center flex-1 w-full my-2">
+                                <p id="flash-back-text" class="text-xs text-emerald-400 font-mono text-center px-1">LOADING...</p>
+                            </div>
                             <span class="text-[9px] text-slate-500">แตะเพื่อสลับกลับ</span>
                         </div>
                     </div>
                 </div>
+
                 <div class="flex gap-2 mt-4">
                     <button onclick="prevCard()" class="flex-1 bg-slate-950 border border-slate-800 text-slate-300 py-2 rounded-xl text-xs font-semibold">◀ BACK</button>
                     <button onclick="nextCard()" class="flex-1 bg-slate-950 border border-emerald-500/30 text-emerald-400 py-2 rounded-xl text-xs font-semibold">NEXT ▶</button>
+                </div>
+            </div>
+
+            <div class="bg-slate-900/50 p-4 rounded-2xl border border-slate-800">
+                <h3 class="text-xs font-bold text-cyan-400 flex items-center gap-1.5 uppercase tracking-wider mb-3">
+                    <i data-lucide="plus-circle" class="w-4 h-4"></i> Custom Flash Node Generator
+                </h3>
+                <div class="space-y-3">
+                    <div>
+                        <label class="text-[9px] text-slate-400 block mb-1 uppercase font-semibold font-mono">Question (คำถาม)</label>
+                        <textarea id="new-flash-q" rows="2" placeholder="เช่น โครงสร้างนี้เรียกว่าอะไร?" class="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-850 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-sans"></textarea>
+                    </div>
+                    <div>
+                        <label class="text-[9px] text-slate-400 block mb-1 uppercase font-semibold font-mono">Answer / Solution (คำตอบ)</label>
+                        <input type="text" id="new-flash-a" placeholder="เช่น Mitochondria" class="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-850 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-sans">
+                    </div>
+                    <div>
+                        <label class="text-[9px] text-slate-400 block mb-1 uppercase font-semibold font-mono">Attach Biometric Image (แนบรูปภาพประกอบ)</label>
+                        <input type="file" id="new-flash-img" accept="image/*" class="w-full p-1.5 bg-slate-950 border border-slate-850 rounded-xl text-slate-400 font-mono text-[11px] focus:outline-none file:mr-2 file:py-1 file:px-2 file:rounded-md file:border-0 file:text-[10px] file:font-semibold file:bg-slate-800 file:text-cyan-400 hover:file:bg-slate-700">
+                    </div>
+                    <button onclick="addNewFlashcard()" class="w-full bg-cyan-500 text-slate-950 font-bold py-2.5 rounded-xl text-xs uppercase tracking-wider hover:brightness-110 transition-all shadow-[0_0_15px_rgba(6,182,212,0.2)]">
+                        GENERATE MEMORY NODE
+                    </button>
                 </div>
             </div>
         </div>
@@ -488,13 +525,167 @@
             `;
         }
 
-        // ================= POMODORO & APP CORE =================
+        // ================= 🧠 FLASHCARDS CORE LOGIC (V4.3 DYNAMIC ENGINE) =================
         const defaultFlashcards = [
-            { q: "Glycolysis เกิดขึ้นที่บริเวณใดของเซลล์ และได้กี่ Net ATP?", a: "เกิดที่ Cytosol / ได้สุทธิ 2 ATP (และ 2 NADH)" },
-            { q: "สูตรประชากรสมดุลของ Hardy-Weinberg มีสมการอย่างไร?", a: "p² + 2pq + q² = 1" },
-            { q: "พืชกลุ่มใดมีการตรึงคาร์บอน 2 ครั้ง แยกตามสถานที่?", a: "พืชกลุ่ม C4 (เช่น ข้าวโพด ข้าวฟ่าง อ้อย)" }
+            { q: "Glycolysis เกิดขึ้นที่บริเวณใดของเซลล์ และได้กี่ Net ATP?", a: "เกิดที่ Cytosol / ได้สุทธิ 2 ATP (และ 2 NADH)", img: null },
+            { q: "สูตรประชากรสมดุลของ Hardy-Weinberg มีสมการอย่างไร?", a: "p² + 2pq + q² = 1", img: null },
+            { q: "พืชกลุ่มใดมีการตรึงคาร์บอน 2 ครั้ง แยกตามสถานที่?", a: "พืชกลุ่ม C4 (เช่น ข้าวโพด ข้าวฟ่าง อ้อย)", img: null }
         ];
+        
+        let allFlashcards = [...defaultFlashcards];
         let currentCardIndex = 0;
+        
+        function loadCustomFlashcards() {
+            try {
+                const stored = safeStorage.getItem('matrix_custom_flashcards');
+                if (stored) {
+                    const customCards = JSON.parse(stored);
+                    allFlashcards = [...defaultFlashcards, ...customCards];
+                } else {
+                    allFlashcards = [...defaultFlashcards];
+                }
+            } catch (e) {
+                allFlashcards = [...defaultFlashcards];
+            }
+        }
+
+        function updateCardContent() {
+            if(allFlashcards.length === 0) {
+                document.getElementById('flash-front-text').innerText = "ไม่พบคาร์ดในระบบ กรุณาสร้างใหม่ด้านล่าง";
+                document.getElementById('flash-back-text').innerText = "ไม่มีข้อมูล";
+                document.getElementById('flash-badge').innerText = "NODE: 0/0";
+                document.getElementById('flash-front-img').classList.add('hidden');
+                document.getElementById('delete-card-btn').classList.add('hidden');
+                return;
+            }
+
+            const card = allFlashcards[currentCardIndex];
+            document.getElementById('flash-front-text').innerText = card.q;
+            document.getElementById('flash-back-text').innerText = card.a;
+            document.getElementById('flash-badge').innerText = `NODE: ${currentCardIndex + 1}/${allFlashcards.length}`;
+
+            // จัดการแสดงผลรูปภาพประกอบ
+            const imgEl = document.getElementById('flash-front-img');
+            if (card.img) {
+                imgEl.src = card.img;
+                imgEl.classList.remove('hidden');
+            } else {
+                imgEl.classList.add('hidden');
+                imgEl.src = "";
+            }
+
+            // แสดงปุ่มลบ เฉพาะการ์ดที่ผู้ใช้เป็นคนสร้างขึ้นมาเอง (ลำดับเกินการ์ดเริ่มต้น)
+            const deleteBtn = document.getElementById('delete-card-btn');
+            if (currentCardIndex >= defaultFlashcards.length) {
+                deleteBtn.classList.remove('hidden');
+            } else {
+                deleteBtn.classList.add('hidden');
+            }
+        }
+
+        function addNewFlashcard() {
+            const qText = document.getElementById('new-flash-q').value.trim();
+            const aText = document.getElementById('new-flash-a').value.trim();
+            const fileInput = document.getElementById('new-flash-img');
+
+            if (!qText || !aText) {
+                alert("กรุณากรอกทั้งคำถามและคำตอบก่อนรันคำสั่งครับ");
+                return;
+            }
+
+            if (fileInput.files && fileInput.files[0]) {
+                const file = fileInput.files[0];
+                // คุมขนาดไฟล์ภาพไม่ให้เกิน 1.5MB เพื่อไม่ให้หน่วยความจำ LocalStorage เต็มเร็ว
+                if (file.size > 1500000) {
+                    alert("⚠️ ขนาดไฟล์ภาพใหญ่เกินไป (จำกัดไม่เกิน 1.5MB) เพื่อรักษาระบบฐานข้อมูล");
+                    return;
+                }
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    saveCardToStorage(qText, aText, e.target.result);
+                };
+                reader.readAsDataURL(file);
+            } else {
+                saveCardToStorage(qText, aText, null);
+            }
+        }
+
+        function saveCardToStorage(q, a, imgData) {
+            try {
+                const stored = safeStorage.getItem('matrix_custom_flashcards');
+                let customCards = stored ? JSON.parse(stored) : [];
+                
+                const newCard = { q: q, a: a, img: imgData };
+                customCards.push(newCard);
+                
+                safeStorage.setItem('matrix_custom_flashcards', JSON.stringify(customCards));
+                
+                // รีเซ็ตฟอร์ม
+                document.getElementById('new-flash-q').value = "";
+                document.getElementById('new-flash-a').value = "";
+                document.getElementById('new-flash-img').value = "";
+                
+                loadCustomFlashcards();
+                currentCardIndex = allFlashcards.length - 1; // สลับไปหน้าการ์ดที่สร้างล่าสุดทันที
+                updateCardContent();
+                alert("🔒 สร้าง Flash Node สำเร็จและเซฟลงฐานข้อมูลความปลอดภัยแล้ว!");
+            } catch(e) {
+                alert("⚠️ ข้อผิดพลาด: พื้นที่ความจำระบบเต็ม ไม่สามารถบันทึกภาพขนาดใหญ่นี้ได้");
+            }
+        }
+
+        function deleteCurrentCard() {
+            if (currentCardIndex < defaultFlashcards.length) return; // การ์ดระบบลบไม่ได้
+            
+            if (confirm("ต้องการลบ Memory Node ชิ้นนี้ถาวรใช่หรือไม่?")) {
+                const customIndex = currentCardIndex - defaultFlashcards.length;
+                try {
+                    const stored = safeStorage.getItem('matrix_custom_flashcards');
+                    if (stored) {
+                        let customCards = JSON.parse(stored);
+                        customCards.splice(customIndex, 1);
+                        safeStorage.setItem('matrix_custom_flashcards', JSON.stringify(customCards));
+                        
+                        loadCustomFlashcards();
+                        // ลดตำแหน่ง index ลงป้องกันการหลุดขอบอาเรย์
+                        if (currentCardIndex >= allFlashcards.length) {
+                            currentCardIndex = allFlashcards.length - 1;
+                        }
+                        if (currentCardIndex < 0) currentCardIndex = 0;
+                        
+                        // ปิดฟลิปกลับเป็นหน้าหลักก่อนแสดงผลถัดไป
+                        document.getElementById('flash-card-inner').classList.remove('flipped');
+                        updateCardContent();
+                    }
+                } catch(e) {
+                    alert("ไม่สามารถทำลายการ์ดได้");
+                }
+            }
+        }
+
+        function flipCard() { 
+            if(allFlashcards.length > 0) {
+                document.getElementById('flash-card-inner').classList.toggle('flipped'); 
+            }
+        }
+        function nextCard() { 
+            if(allFlashcards.length === 0) return;
+            document.getElementById('flash-card-inner').classList.remove('flipped');
+            setTimeout(() => {
+                currentCardIndex = (currentCardIndex + 1) % allFlashcards.length; 
+                updateCardContent();
+            }, 100);
+        }
+        function prevCard() { 
+            if(allFlashcards.length === 0) return;
+            document.getElementById('flash-card-inner').classList.remove('flipped');
+            setTimeout(() => {
+                currentCardIndex = (currentCardIndex - 1 + allFlashcards.length) % allFlashcards.length; 
+                updateCardContent();
+            }, 100);
+        }
+
+        // ================= POMODORO TIMING ENGINE =================
         let pomoMinutes = 25, pomoSeconds = 0, pomoTimer = null, isPomoRunning = false, pomoMode = 'focus';
 
         function togglePomodoro() {
@@ -536,7 +727,7 @@
             alert(pomoMode === 'focus' ? "🔥 หมดเวลาโฟกัส! พักผ่อน 5 นาทีครับ" : "📚 หมดเวลาพัก! กลับมาลุยกันต่อครับ");
         }
 
-        // แท็บสลับหน้าหลัก
+        // แท็บสลับหน้าแดชบอร์ดหลัก
         function switchTab(tabName) {
             ['planner', 'mock', 'flash', 'notes'].forEach(t => {
                 const page = document.getElementById(`page-${t}`);
@@ -549,17 +740,9 @@
                     btn.className = "flex-1 text-center py-2 rounded-lg font-bold transition-all text-slate-400 hover:bg-slate-900 hover:text-slate-200";
                 }
             });
+            // หากสลับมาแท็บแฟลช ให้ล้างเอฟเฟกต์ฟลิปคาร์ดค้างไว้
+            if(tabName === 'flash') document.getElementById('flash-card-inner').classList.remove('flipped');
         }
-
-        function flipCard() { document.getElementById('flash-card-inner').classList.toggle('flipped'); }
-        function updateCardContent() {
-            const card = defaultFlashcards[currentCardIndex];
-            document.getElementById('flash-front-text').innerText = card.q;
-            document.getElementById('flash-back-text').innerText = card.a;
-            document.getElementById('flash-badge').innerText = `NODE: ${currentCardIndex + 1}/${defaultFlashcards.length}`;
-        }
-        function nextCard() { currentCardIndex = (currentCardIndex + 1) % defaultFlashcards.length; updateCardContent(); }
-        function prevCard() { currentCardIndex = (currentCardIndex - 1 + defaultFlashcards.length) % defaultFlashcards.length; updateCardContent(); }
 
         function updateGlobalProgress() {
             const total = checkboxes.length, checked = document.querySelectorAll('.todo-checkbox:checked').length;
@@ -569,6 +752,7 @@
             calculateLivePlanner(); updateCountdown();
         }
 
+        // ================= INITIALIZE ON LOAD =================
         window.onload = function() {
             initSecurityGate();
             document.getElementById('hist-65').value = safeStorage.getItem('hist-score-65') || '';
@@ -583,7 +767,10 @@
             quickMemo.value = safeStorage.getItem('saved-bio-memo') || '';
             quickMemo.addEventListener('input', () => safeStorage.setItem('saved-bio-memo', quickMemo.value));
             
-            updateGlobalProgress(); updateCardContent(); saveAndCalcTrend();
+            loadCustomFlashcards();
+            updateGlobalProgress(); 
+            updateCardContent(); 
+            saveAndCalcTrend();
         }
 
         resetBtn.addEventListener('click', () => {
